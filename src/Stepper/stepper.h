@@ -17,6 +17,16 @@ public:
     ///enable pin is set to output
     void setEnablePin(uint8_t enablePin);
 
+    ///enables the motor driver
+    void enable();
+
+    ///disables the motor driver
+    void disable();
+
+    ///gets the enable state of the driver
+    /// \return the state of the driver
+    bool isEnabled();
+
     ///attaches limit switch for position control
     void attachLimitSW(uint8_t switch_pin);
 
@@ -50,7 +60,9 @@ private:
     uint8_t _dir_pin;
     uint8_t _step_pin;
     bool _direction
-    
+    bool _enableUsed;
+    uint8_t _enable_pin;
+    bool _isEnabled;
 
 
 #endif
