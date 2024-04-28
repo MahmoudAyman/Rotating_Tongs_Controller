@@ -5,8 +5,11 @@ Stepper::Stepper(uint8_t DIR, uint8_t STEP, bool enabledUsed = false)
 	this->_dir_pin = DIR;
 	this->_step_pin = STEP;
 
-	pinMode(_dir_pin, OUTPUT);
-	pinMode(_step_pin, STEP);
+	pinMode(this->_dir_pin, OUTPUT);
+	pinMode(this->_step_pin, STEP);
+
+	digitalWrite(this->_dir_pin, LOW);
+	digitalWrite(this->step_pin, LOW);
 
 	this->_speed=1.0;
 	this->_direction=false;
@@ -15,33 +18,43 @@ Stepper::Stepper(uint8_t DIR, uint8_t STEP, bool enabledUsed = false)
 }
 
 
-void setDirection(bool direction)
+void Stepper::setDirection(bool direction)
 {
+	if (_direction)
+	{
+		digitalWrite(this->_dir_pin, HIGH);
+	}
+	else
+	{
+		digitalWrite(this->_dir_pin, LOW);
+	}
 	this->_direction = direction;
 }
 
-bool direction()
+bool Stepper::direction()
 {
 	return this->_direction;
 }
 
-void setSpeed(float speed)
+void Stepper::setSpeed(uint8_t speed)
 {
 	this->_speed = speed;
+	_MICROSECONDS_PER_MICROSTEP = (1000000/(STEPS_PER_REV * MICROSTEPS_PER_STEP)/(speed / 60));
+
 }
 
-void speed()
+uint8_t Stepper::speed()
 {
 	return this->_speed;
 }
 
-void setEnablePin(uint8_t enablePin)
+void Stepper::setEnablePin(uint8_t enablePin)
 {
 	this->_enable_pin = enablePin;
 	this->_enableUsed = true;
 }
 
-void enable()
+void Stepper::enable()
 {
 	if (_enableUsed)
 	{
@@ -51,7 +64,7 @@ void enable()
 
 }
 
-void disable()
+void Stepper::disable()
 {
 	if (_enableUsed)
 	{
@@ -60,10 +73,25 @@ void disable()
 	}
 }
 
-bool isEnabled()
+bool Stepper::isEnabled()
 {
 	return this->_isEnabled;
 }
 
 
+void Stepper::step()
+{
+	digitalWrite(this->_step_pin, HIGH);
+	delayMicroseconds(_MICROSECONDS_PER_MICROSTEP / 2);
+	digitalWrite(this->step_pin, LOW);
+	delayMicroseconds(_MICROSECONDS_PER_MICROSTEP / 2);
+}
 
+void Stepper::run(long steps, bool dir)
+{
+	this->setDirection(dir);
+	for (int i = 0; i < steps; i++)
+	{
+		this->step();
+	}
+}

@@ -2,11 +2,14 @@
 #define STEPPER_H
 
 
+#define STEPS_PER_REV         200
+#define MICROSTEPS_PER_STEP     2
 
 class Stepper {
 public:
 
     /// Constructor. Creates stepper object.
+    ///default speed is 1 RPM
     /// \param[in] DIR: motor driver direction pin
     /// \param[in] STEP: motor driver step pin
     /// \param[in] enableUsed: boolean to use enable feature [default is disabled]
@@ -44,25 +47,29 @@ public:
     /// \return the motor direction, false is CW, true is CCW
     bool direction();
 
-    /// Sets the desired constant speed for use with runSpeed().
-    /// \param[in] speed The desired constant speed in steps per
-    /// second. Positive is clockwise. Speeds of more than 1000 steps per
-    /// second are unreliable. Very slow speeds may be set (eg 0.00027777 for
-    /// once per hour, approximately. 
-    void    setSpeed(float speed);
+    /// Sets the desired constant speed for use with step().
+    /// \param[in] speed The desired constant speed in RPM
+    /// second. 
+    void setSpeed(uint8_t speed);
 
     /// The most recently set speed.
     /// \return the most recent speed in steps per second
-    float   speed();
+    uint8_t speed();
+
+
+    ///runs the motor for the specified number of steps
+    ///in the specified direction
+    void run(long steps, bool dir);
 
 private:
-    float _speed;
+    uint8_t _speed;
     uint8_t _dir_pin;
     uint8_t _step_pin;
     bool _direction
     bool _enableUsed;
     uint8_t _enable_pin;
     bool _isEnabled;
+    long MICROSECONDS_PER_MICROSTEP;
 
 
 #endif
