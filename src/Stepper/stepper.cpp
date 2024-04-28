@@ -1,6 +1,6 @@
 #include "stepper.h"
 
-Stepper::Stepper(uint8_t DIR, uint8_t STEP, bool enabledUsed = false)
+Stepper::Stepper(uint8_t DIR, uint8_t STEP)
 {
 	this->_dir_pin = DIR;
 	this->_step_pin = STEP;
@@ -9,7 +9,7 @@ Stepper::Stepper(uint8_t DIR, uint8_t STEP, bool enabledUsed = false)
 	pinMode(this->_step_pin, STEP);
 
 	digitalWrite(this->_dir_pin, LOW);
-	digitalWrite(this->step_pin, LOW);
+	digitalWrite(this->_step_pin, LOW);
 
 	this->_speed=1.0;
 	this->_direction=false;
@@ -83,7 +83,7 @@ void Stepper::step()
 {
 	digitalWrite(this->_step_pin, HIGH);
 	delayMicroseconds(_MICROSECONDS_PER_MICROSTEP / 2);
-	digitalWrite(this->step_pin, LOW);
+	digitalWrite(this->_step_pin, LOW);
 	delayMicroseconds(_MICROSECONDS_PER_MICROSTEP / 2);
 }
 

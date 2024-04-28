@@ -1,11 +1,12 @@
-#ifndef STEPPER_H
-#define STEPPER_H
+#ifndef stepper_h
+#define stepper_h
 
+#include <Arduino.h>
 
-#define STEPS_PER_REV         200
-#define MICROSTEPS_PER_STEP     2
+#define STEPS_PER_REV 200
+#define MICROSTEPS_PER_STEP 2
 
-class Stepper {
+class Stepper{
 public:
 
     /// Constructor. Creates stepper object.
@@ -14,7 +15,7 @@ public:
     /// \param[in] STEP: motor driver step pin
     /// \param[in] enableUsed: boolean to use enable feature [default is disabled]
     ///(i.e. always enabled)
-    Stepper(uint8_t DIR, uint8_t STEP, bool enabledUsed = false)
+    Stepper(uint8_t DIR, uint8_t STEP);
 
     ///sets the enable pin for the motor driver
     ///enable pin is set to output
@@ -40,7 +41,7 @@ public:
     /// \param[in] direction: -->bool
     ///false is CW, true is CCW
     ///default is CW.
-    void setDirection(bool direction)
+    void setDirection(bool direction);
 
 
     ///gets the current set direction of the motor
@@ -65,11 +66,11 @@ private:
     uint8_t _speed;
     uint8_t _dir_pin;
     uint8_t _step_pin;
-    bool _direction
+    bool _direction;
     bool _enableUsed;
     uint8_t _enable_pin;
     bool _isEnabled;
-    long MICROSECONDS_PER_MICROSTEP;
-
+    long _MICROSECONDS_PER_MICROSTEP;
+};
 
 #endif
