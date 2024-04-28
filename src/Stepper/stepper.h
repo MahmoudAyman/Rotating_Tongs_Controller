@@ -26,6 +26,7 @@ public:
     ///sets the direction of the motor
     /// \param[in] direction: -->bool
     ///false is CW, true is CCW
+    ///default is CW.
     void setDirection(bool direction)
 
 
@@ -48,6 +49,8 @@ private:
     float _speed;
     uint8_t _dir_pin;
     uint8_t _step_pin;
+    bool _direction
+    
 
 
 #endif
